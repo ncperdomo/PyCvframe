@@ -79,25 +79,13 @@ def cross_product(omega: np.ndarray, pos: np.ndarray) -> np.ndarray:
 
 
 # ---------------------------------------------------------------------------
-# Frame-to-frame rotation lookup
+# Frame-to-frame rotation lookup — delegates to frame_registry
 # ---------------------------------------------------------------------------
 
-def frame_to_frame(out_frame: str, in_frame: str) -> np.ndarray:
-    """
-    Return the rotation vector (rad/yr) that maps velocities from in_frame
-    to out_frame.  V_out = V_in - (rot × X).
-
-    For NONE frames the rotation is zero.  For other frames, raise
-    NotImplementedError; pass the pole explicitly instead.
-    """
-    if in_frame.upper() == out_frame.upper():
-        return np.zeros(3)
-    if in_frame.upper() == "NONE" or out_frame.upper() == "NONE":
-        return np.zeros(3)
-    raise NotImplementedError(
-        f"Frame lookup '{in_frame}' -> '{out_frame}' is not implemented.  "
-        "Pass the Euler pole explicitly as a numeric vector."
-    )
+try:
+    from frame_registry import frame_to_frame, list_frames, FRAME_REGISTRY, FRAME_NAMES
+except ImportError:
+    from .frame_registry import frame_to_frame, list_frames, FRAME_REGISTRY, FRAME_NAMES
 
 
 # ---------------------------------------------------------------------------
