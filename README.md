@@ -126,7 +126,7 @@ data and compares the output against the precomputed Fortran reference file
 ### Test results
 
 Test: 429 sites in ITRF14 frame rotated into the Arabian-plate-fixed frame using the
-Reilinger et al. (2006) Euler pole `[0.32840, -0.03504, 0.40682]` deg/Myr.
+Viltres et al. (2022) Euler pole `[0.32840, -0.03504, 0.40682]` deg/Myr.
 
 | Component | Max residual (PyCvframe − Fortran) | Notes |
 |-----------|-----------------------------------|-------|
@@ -180,3 +180,5 @@ All velocities in mm/yr. `de/dn` = rate adjustment; `se/sn/su` = 1-sigma uncerta
 Reilinger, R., et al. (2006). GPS constraints on continental deformation in the
 Africa‐Arabia‐Eurasia continental collision zone and implications for the dynamics of
 plate interactions. *Journal of Geophysical Research*, 111(B5).
+
+Viltres, Renier, et al. (2022). Present‐day motion of the Arabian Plate. *Tectonics* 41.3. https://doi.org/10.1029/2021TC007013
