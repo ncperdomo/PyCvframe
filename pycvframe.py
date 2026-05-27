@@ -375,6 +375,10 @@ class PyCvframe:
         lats = np.asarray(lats, dtype=float)
         ve   = np.asarray(ve,   dtype=float)
         vn   = np.asarray(vn,   dtype=float)
+        if self.rot_prime is None:
+            raise RuntimeError(
+                "No rotation pole set. Call run() or set rot_prime before transform_array()."
+            )
         return _batch_transform(lons, lats, ve, vn, self.rot_prime)
 
 
