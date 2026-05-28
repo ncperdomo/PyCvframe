@@ -242,10 +242,10 @@ The scalar helpers (`apply_frame_rotation`, `geod_to_xyz`, `rotation_matrix_neu`
 unchanged and remain as Fortran-mapping reference code. The file-processing path
 (`_process`) is unchanged and is I/O-bound at this dataset size.
 
-Run the benchmark yourself:
+Run the built-in benchmark:
 
 ```bash
-python3.14 benchmarks/benchmark_transform.py
+python benchmarks/benchmark_transform.py
 ```
 
 ---
