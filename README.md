@@ -219,6 +219,37 @@ All velocities in mm/yr. `de/dn` = rate adjustment; `se/sn/su` = 1-sigma uncerta
 
 ---
 
+## Performance
+
+`transform_array` uses a fully vectorized NumPy implementation (`_batch_transform`)
+instead of a per-site Python loop. On 429 sites (Python 3.14.4, NumPy 2.4.4):
+
+| Path | Per call | Speedup |
+|---|---|---|
+| Old (Python loop) | 7488 µs | 1× |
+| New (vectorized) | 24 µs | **315×** |
+
+**What the optimization does:**
+
+- Computes `sin/cos(lat)` and `sin/cos(lon)` once over all sites (shared between the
+  ECEF position and the NEU rotation, eliminating four redundant trig calls per site)
+- Inlines the cross product as six broadcast operations (avoids `np.cross` function-call
+  overhead on 3-element arrays)
+- Evaluates only the North (row 0) and East (row 1) rows of the rotation matrix —
+  the Up component is never needed
+
+The scalar helpers (`apply_frame_rotation`, `geod_to_xyz`, `rotation_matrix_neu`) are
+unchanged and remain as Fortran-mapping reference code. The file-processing path
+(`_process`) is unchanged and is I/O-bound at this dataset size.
+
+Run the benchmark yourself:
+
+```bash
+python3.14 benchmarks/benchmark_transform.py
+```
+
+---
+
 ## Reference
 
 Reilinger, R., et al. (2006). GPS constraints on continental deformation in the
